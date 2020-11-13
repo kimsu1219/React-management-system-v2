@@ -25,7 +25,17 @@ class CustomerAdd extends React.Component {
         this.addCustomer()
         .then((res) => {
             console.log(res.data)
+            this.props.stateRefresh(); //고객데이터 추가 이후에 불러와야됨
         })
+        this.setState({ //데이터 전송 이후 고객추가양식비우기
+            file: null,
+            userName: '',
+            birthday:'',
+            gender: '',
+            job: '',
+            fileName: ''
+        })
+        // window.location.reload();//새로고침
     }
 
     handleFileChange(e) {
@@ -43,7 +53,7 @@ class CustomerAdd extends React.Component {
     
     //api주소로 데이터 전송
     addCustomer() {
-        const url = './api/customers';
+        const url = '/api/customers';
         const formData = new FormData();
         formData.append('image', this.state.file)
         formData.append('name', this.state.userName)

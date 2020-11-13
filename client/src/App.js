@@ -29,12 +29,32 @@ const styles = theme => ({
 });
 
 class App extends Component {
+
   // ?prop와 달리 변경될 수 있는 데이터를 담는 state?
-  state = {
-    customers: '',
-    completed: 0
+  // state = {
+  //   customers: '',
+  //   completed: 0
+  // }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      customers: '',
+      completed: 0
+    }
+    this.stateRefresh = this.stateRefresh.bind(this)
   }
-    
+  
+  stateRefresh() { //state 초기화 함수
+    this.setState({
+      customers: '',
+      completed: 0
+    });
+    this.callApi() //이후고객목록을 새로 불러오도록
+      .then(res => this.setState({customers: res})) //customer 목록데이터를 받아서 state로 설정, customers라는 변수 값에 body내용 담김
+      .catch(err => console.log(err));
+  }
+
   componentDidMount() {
     this.timer = setInterval(this.progress, 20); //progress함수를 계속실행시킬 timer
     this.callApi()
@@ -87,7 +107,8 @@ class App extends Component {
             </TableBody>
           </Table>
         </Paper>
-        <CustomerAdd/>
+        {/* cutomeradd 출력시 props값으로 staterefresh를 설정, 함수자체를 props형태로 보내줌 */}
+        <CustomerAdd stateRefresh={this.stateRefresh}/> 
       </div>
     );
   }
