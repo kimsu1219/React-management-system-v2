@@ -91,12 +91,14 @@ class App extends Component {
                 <TableCell>생년월일</TableCell>
                 <TableCell>성별</TableCell>
                 <TableCell>직업</TableCell>
+                <TableCell>설정</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
             {this.state.customers ? this.state.customers.map(c => {
                 // console.log(c)
-                return <CustomerTable key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />
+                //삭제이후에 staterefrsh가 수행될 수 있도록 
+                return <CustomerTable stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />
               }) : 
               <TableRow>
                 <TableCell colSpan='6' align='center'>
